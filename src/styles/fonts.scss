@@ -1,11 +1,12 @@
-@import url('https://rsms.me/inter/inter.css');
+// @import url('https://rsms.me/inter/inter.css');
+@import "../fonts/style.css";
 
 html {
-    font-family: 'Inter', sans-serif;
+  font-family: "HKGrotesk-Regular", sans-serif;
 }
 
 @supports (font-variation-settings: normal) {
-    html {
-        font-family: 'Inter var', sans-serif;
-    }
+  html {
+    font-family: "HKGrotesk-Regular", sans-serif;
+  }
 }

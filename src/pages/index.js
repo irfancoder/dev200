@@ -1,239 +1,376 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Helmet from "react-helmet";
-import { RichText } from "prismic-reactjs";
-import { graphql, Link } from "gatsby";
-import styled from "@emotion/styled";
-import colors from "styles/colors";
-import dimensions from "styles/dimensions";
-import Button from "components/_ui/Button";
-import About from "components/About";
-import Layout from "components/Layout";
-import ProjectCard from "components/ProjectCard";
+import React from "react"
+import PropTypes from "prop-types"
+import Helmet from "react-helmet"
+import { RichText } from "prismic-reactjs"
+import { graphql, Link } from "gatsby"
+import styled from "@emotion/styled"
+import colors from "styles/colors"
+import dimensions from "styles/dimensions"
+import Button from "components/_ui/Button"
+import CommunityLeaderCard from "components/CommunityLeaderCard"
+import Layout from "components/Layout"
+import ProjectCard from "components/ProjectCard"
+import deco_1 from "../images/web-home-1.svg"
 
 const Hero = styled("div")`
-    padding-top: 2.5em;
-    padding-bottom: 3em;
-    margin-bottom: 6em;
-    max-width: 830px;
+  padding-top: 2.5em;
+  padding-bottom: 3em;
+  margin-bottom: 6em;
+  max-width: 830px;
 
-    @media(max-width:${dimensions.maxwidthMobile}px) {
-       margin-bottom: 3em;
-    }
+  @media (max-width: ${dimensions.maxwidthMobile}px) {
+    margin-bottom: 3em;
+  }
 
-    h1 {
-        margin-bottom: 1em;
+  h1 {
+    margin-bottom: 1em;
+    max-width: 650px;
+    color: #707070;
+    line-height: 2;
+    font-size: 3.3em;
 
-        a {
-            text-decoration: none;
-            transition: all 100ms ease-in-out;
+    a {
+      text-decoration: none;
+      transition: all 100ms ease-in-out;
 
-            &:nth-of-type(1) { color: ${colors.blue500}; }
-            &:nth-of-type(2) { color: ${colors.orange500}; }
-            &:nth-of-type(3) { color: ${colors.purple500}; }
-            &:nth-of-type(4) { color: ${colors.green500}; }
-            &:nth-of-type(5) { color: ${colors.teal500}; }
+      &:nth-of-type(1) {
+        color: ${colors.blue500};
+      }
+      &:nth-of-type(2) {
+        color: ${colors.orange500};
+      }
+      &:nth-of-type(3) {
+        color: ${colors.purple500};
+      }
+      &:nth-of-type(4) {
+        color: ${colors.green500};
+      }
+      &:nth-of-type(5) {
+        color: ${colors.teal500};
+      }
 
-            &:hover {
-                cursor: pointer;
-                transition: all 100ms ease-in-out;
+      &:hover {
+        cursor: pointer;
+        transition: all 100ms ease-in-out;
 
-                &:nth-of-type(1) { color: ${colors.blue600};    background-color: ${colors.blue200};}
-                &:nth-of-type(2) { color: ${colors.orange600};  background-color: ${colors.orange200};}
-                &:nth-of-type(3) { color: ${colors.purple600};  background-color: ${colors.purple200};}
-                &:nth-of-type(4) { color: ${colors.green600};   background-color: ${colors.green200};}
-                &:nth-of-type(5) { color: ${colors.teal600};    background-color: ${colors.teal200};}
-
-            }
+        &:nth-of-type(1) {
+          color: ${colors.blue600};
+          background-color: ${colors.blue200};
         }
+        &:nth-of-type(2) {
+          color: ${colors.orange600};
+          background-color: ${colors.orange200};
+        }
+        &:nth-of-type(3) {
+          color: ${colors.purple600};
+          background-color: ${colors.purple200};
+        }
+        &:nth-of-type(4) {
+          color: ${colors.green600};
+          background-color: ${colors.green200};
+        }
+        &:nth-of-type(5) {
+          color: ${colors.teal600};
+          background-color: ${colors.teal200};
+        }
+      }
     }
+  }
+`
+
+const Deco_1 = styled("img")`
+  color: black;
+  width: 300px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -100;
 `
 
 const Section = styled("div")`
-    margin-bottom: 10em;
-    display: flex;
-    flex-direction: column;
+  margin-bottom: 10em;
+  display: flex;
+  flex-direction: column;
 
-    @media(max-width:${dimensions.maxwidthTablet}px) {
-        margin-bottom: 4em;
-    }
+  @media (max-width: ${dimensions.maxwidthTablet}px) {
+    margin-bottom: 4em;
+  }
 
-    &:last-of-type {
-        margin-bottom: 0;
-    }
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 `
 
+const SectionTitle = styled("h3")`
+  margin: auto;
+`
 const WorkAction = styled(Link)`
-    font-weight: 600;
-    text-decoration: none;
-    color: currentColor;
-    transition: all 150ms ease-in-out;
-    margin-left: auto;
+  font-weight: 600;
+  text-decoration: none;
+  color: currentColor;
+  transition: all 150ms ease-in-out;
+  margin-left: auto;
 
-    @media(max-width:${dimensions.maxwidthTablet}px) {
-       margin: 0 auto;
-    }
+  @media (max-width: ${dimensions.maxwidthTablet}px) {
+    margin: 0 auto;
+  }
+
+  span {
+    margin-left: 1em;
+    transform: translateX(-8px);
+    display: inline-block;
+    transition: transform 400ms ease-in-out;
+  }
+
+  &:hover {
+    color: ${colors.blue500};
+    transition: all 150ms ease-in-out;
 
     span {
-        margin-left: 1em;
-        transform: translateX(-8px);
-        display: inline-block;
-        transition: transform 400ms ease-in-out;
+      transform: translateX(0px);
+      opacity: 1;
+      transition: transform 150ms ease-in-out;
     }
-
-    &:hover {
-        color: ${colors.blue500};
-        transition: all 150ms ease-in-out;
-
-        span {
-            transform: translateX(0px);
-            opacity: 1;
-            transition: transform 150ms ease-in-out;
-        }
-    }
+  }
 `
 
-const RenderBody = ({ home, projects, meta }) => (
-    <>
-        <Helmet
-            title={meta.title}
-            titleTemplate={`%s | ${meta.title}`}
-            meta={[
-                {
-                    name: `description`,
-                    content: meta.description,
-                },
-                {
-                    property: `og:title`,
-                    content: meta.title,
-                },
-                {
-                    property: `og:description`,
-                    content: meta.description,
-                },
-                {
-                    property: `og:type`,
-                    content: `website`,
-                },
-                {
-                    name: `twitter:card`,
-                    content: `summary`,
-                },
-                {
-                    name: `twitter:creator`,
-                    content: meta.author,
-                },
-                {
-                    name: `twitter:title`,
-                    content: meta.title,
-                },
-                {
-                    name: `twitter:description`,
-                    content: meta.description,
-                },
-            ].concat(meta)}
+const GoalDescription = styled("p")`
+  margin: auto;
+  max-width: 80%;
+  font-size: 1.3em;
+`
+
+// const test = [
+//   {
+//     name: "Irfan Ismail",
+//     organisation: "Founders",
+//   },
+//   {
+//     name: "Hamzah Hamizan",
+//     organisation: "Founders",
+//   },
+// ]
+
+const CommunityLeadContainer = styled("div")`
+  padding-top: 1em;
+  padding-bottom: 10em;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2rem;
+  row-gap: 10em;
+
+  @media (max-width: ${dimensions.maxwidthTablet}px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: ${dimensions.maxwidthMobile}px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`
+
+const RenderBody = ({ home, projects, meta, lead }) => (
+  <>
+    <Helmet
+      title={meta.title}
+      titleTemplate={`%s | ${meta.title}`}
+      meta={[
+        {
+          name: `description`,
+          content: meta.description,
+        },
+        {
+          property: `og:title`,
+          content: meta.title,
+        },
+        {
+          property: `og:description`,
+          content: meta.description,
+        },
+        {
+          property: `og:type`,
+          content: `website`,
+        },
+        {
+          name: `twitter:card`,
+          content: `summary`,
+        },
+        {
+          name: `twitter:creator`,
+          content: meta.author,
+        },
+        {
+          name: `twitter:title`,
+          content: meta.title,
+        },
+        {
+          name: `twitter:description`,
+          content: meta.description,
+        },
+      ].concat(meta)}
+    />
+    <Hero>
+      <Deco_1 src={deco_1} alt="hello" />
+      <>{RichText.render(home.hero_title)}</>
+      <a
+        href={home.hero_button_link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Button>{RichText.render(home.hero_button_text)}</Button>
+      </a>
+    </Hero>
+
+    <Section>
+      <h3>Our Goal</h3>
+      <GoalDescription>
+        The goal is simple. We want to build the foundation and unify the tech
+        community in Sarawak. We truly believe that Sarawak has a massive
+        economic potential that is simply waiting to be unlocked — if we have
+        the right talent pool and ideas. To do that, we need to start sharing
+        what we know to more people.
+        <br />
+        <br />
+        <b>Dev200</b> is the answer we have come up with. It is where people
+        teach their technical expertise to aspiring learners. It is the sharing
+        of ideas between a mentor and mentee. It is the collaborative effort
+        between people to solve real world problems. At the heart of it all, it
+        is a community.
+      </GoalDescription>
+    </Section>
+
+    <Section>
+      <SectionTitle>Beloved Partners</SectionTitle>
+    </Section>
+    <Section>
+      <SectionTitle>Community Leaders</SectionTitle>
+      <CommunityLeadContainer>
+        {lead.map((leader, i) => (
+          <CommunityLeaderCard
+            key={i}
+            name={leader.node.name}
+            organisation={leader.node.organisation}
+            linkedin={leader.node.linkedin}
+            github={leader.node.github}
+          />
+        ))}
+      </CommunityLeadContainer>
+    </Section>
+    <Section>
+      <SectionTitle>Upcoming Events</SectionTitle>
+    </Section>
+    <Section>
+      <SectionTitle>How can you fit in?</SectionTitle>
+    </Section>
+
+    {/* <Section>
+      {projects.map((project, i) => (
+        <ProjectCard
+          key={i}
+          category={project.node.project_category}
+          title={project.node.project_title}
+          description={project.node.project_preview_description}
+          thumbnail={project.node.project_preview_thumbnail}
+          uid={project.node._meta.uid}
         />
-        <Hero>
-            <>
-                {RichText.render(home.hero_title)}
-            </>
-            <a href={home.hero_button_link.url}
-               target="_blank" rel="noopener noreferrer">
-                <Button>
-                    {RichText.render(home.hero_button_text)}
-                </Button>
-            </a>
-        </Hero>
-        <Section>
-            {projects.map((project, i) => (
-                <ProjectCard
-                    key={i}
-                    category={project.node.project_category}
-                    title={project.node.project_title}
-                    description={project.node.project_preview_description}
-                    thumbnail={project.node.project_preview_thumbnail}
-                    uid={project.node._meta.uid}
-                />
-            ))}
-            <WorkAction to={"/work"}>
-                See more work <span>&#8594;</span>
-            </WorkAction>
-        </Section>
-        <Section>
+      ))}
+      <WorkAction to={"/work"}>
+        See more work <span>&#8594;</span>
+      </WorkAction>
+    </Section> */}
+    {/* <Section>
             {RichText.render(home.about_title)}
             <About
                 bio={home.about_bio}
                 socialLinks={home.about_links}
             />
-        </Section>
-    </>
-);
+        </Section> */}
+  </>
+)
 
 export default ({ data }) => {
-    //Required check for no data being returned
-    const doc = data.prismic.allHomepages.edges.slice(0, 1).pop();
-    const projects = data.prismic.allProjects.edges;
-    const meta = data.site.siteMetadata;
+  //Required check for no data being returned
+  const doc = data.prismic.allHomepages.edges.slice(0, 1).pop()
+  const projects = data.prismic.allProjects.edges
+  const meta = data.site.siteMetadata
+  const lead = data.prismic.allCommunityleaders.edges
 
-    if (!doc || !projects) return null;
+  if (!doc || !projects) return null
 
-    return (
-        <Layout>
-            <RenderBody home={doc.node} projects={projects} meta={meta}/>
-        </Layout>
-    )
+  return (
+    <Layout>
+      <RenderBody home={doc.node} projects={projects} meta={meta} lead={lead} />
+    </Layout>
+  )
 }
 
 RenderBody.propTypes = {
-    home: PropTypes.object.isRequired,
-    projects: PropTypes.array.isRequired,
-    meta: PropTypes.object.isRequired,
-};
+  home: PropTypes.object.isRequired,
+  projects: PropTypes.array.isRequired,
+  meta: PropTypes.object.isRequired,
+  lead: PropTypes.array.isRequired,
+}
 
 export const query = graphql`
-    {
-        prismic {
-            allHomepages {
-                edges {
-                    node {
-                        hero_title
-                        hero_button_text
-                        hero_button_link {
-                            ... on PRISMIC__ExternalLink {
-                                _linkType
-                                url
-                            }
-                        }
-                        content
-                        about_title
-                        about_bio
-                        about_links {
-                            about_link
-                        }
-                    }
-                }
+  {
+    prismic {
+      allHomepages {
+        edges {
+          node {
+            hero_title
+            hero_button_text
+            hero_button_link {
+              ... on PRISMIC__ExternalLink {
+                _linkType
+                url
+              }
             }
-            allProjects {
-                edges {
-                    node {
-                        project_title
-                        project_preview_description
-                        project_preview_thumbnail
-                        project_category
-                        project_post_date
-                        _meta {
-                            uid
-                        }
-                    }
-                }
+            content
+            about_title
+            about_bio
+            about_links {
+              about_link
             }
+          }
         }
-        site {
-            siteMetadata {
-                title
-                description
-                author
+      }
+      allProjects {
+        edges {
+          node {
+            project_title
+            project_preview_description
+            project_preview_thumbnail
+            project_category
+            project_post_date
+            _meta {
+              uid
             }
+          }
         }
+      }
+      allCommunityleaders {
+        edges {
+          node {
+            name
+            organisation
+            github {
+              ... on PRISMIC__ExternalLink {
+                url
+              }
+            }
+            linkedin {
+              ... on PRISMIC__ExternalLink {
+                url
+              }
+            }
+          }
+        }
+      }
     }
+    site {
+      siteMetadata {
+        title
+        description
+        author
+      }
+    }
+  }
 `
