@@ -11,6 +11,8 @@ import CommunityLeaderCard from "components/CommunityLeaderCard"
 import Layout from "components/Layout"
 import ProjectCard from "components/ProjectCard"
 import deco_1 from "../images/web-home-1.svg"
+import UpcomingEventCard from "../components/UpcomingEventCard"
+import WorkplaceLogo from "images/workplace.svg"
 
 const Hero = styled("div")`
   padding-top: 2.5em;
@@ -103,6 +105,7 @@ const Section = styled("div")`
 
 const SectionTitle = styled("h3")`
   margin: auto;
+  padding: 2em;
 `
 const WorkAction = styled(Link)`
   font-weight: 600;
@@ -140,17 +143,6 @@ const GoalDescription = styled("p")`
   font-size: 1.3em;
 `
 
-// const test = [
-//   {
-//     name: "Irfan Ismail",
-//     organisation: "Founders",
-//   },
-//   {
-//     name: "Hamzah Hamizan",
-//     organisation: "Founders",
-//   },
-// ]
-
 const CommunityLeadContainer = styled("div")`
   padding-top: 1em;
   padding-bottom: 10em;
@@ -167,7 +159,30 @@ const CommunityLeadContainer = styled("div")`
   }
 `
 
-const RenderBody = ({ home, projects, meta, lead }) => (
+const UpcomingEventContainer = styled("div")`
+  display: flex;
+  overflow-x: scroll;
+  white-space: nowrap;
+
+  padding-bottom: 1em;
+
+  width: 100%;
+`
+
+const InviteWorkplace = styled("div")`
+  display: flex;
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: HK Grotesk Light;
+  font-size: 1.5em;
+  padding-top: 1em;
+  img {
+    padding-left: 0.5em;
+    height: 1.5em;
+  }
+`
+
+const RenderBody = ({ home, meta, lead, event }) => (
   <>
     <Helmet
       title={meta.title}
@@ -246,6 +261,7 @@ const RenderBody = ({ home, projects, meta, lead }) => (
         {lead.map((leader, i) => (
           <CommunityLeaderCard
             key={i}
+            image={leader.node.image}
             name={leader.node.name}
             organisation={leader.node.organisation}
             linkedin={leader.node.linkedin}
@@ -256,9 +272,27 @@ const RenderBody = ({ home, projects, meta, lead }) => (
     </Section>
     <Section>
       <SectionTitle>Upcoming Events</SectionTitle>
+      <UpcomingEventContainer>
+        {event.map((activity, i) => (
+          <UpcomingEventCard
+            key={i}
+            title={activity.node.title}
+            category={activity.node.category}
+            image={activity.node.image}
+            venue={activity.node.venue}
+            start_datetime={activity.node.start_datetime}
+            end_datetime={activity.node.end_datetime}
+            link={activity.node.registration_link}
+          />
+        ))}
+      </UpcomingEventContainer>
     </Section>
     <Section>
       <SectionTitle>How can you fit in?</SectionTitle>
+      <InviteWorkplace>
+        Well, for a start, why not join us on <img src={WorkplaceLogo} /> <br />
+      </InviteWorkplace>
+      <InviteWorkplace>and we will take it from there.</InviteWorkplace>
     </Section>
 
     {/* <Section>
@@ -289,22 +323,22 @@ const RenderBody = ({ home, projects, meta, lead }) => (
 export default ({ data }) => {
   //Required check for no data being returned
   const doc = data.prismic.allHomepages.edges.slice(0, 1).pop()
-  const projects = data.prismic.allProjects.edges
   const meta = data.site.siteMetadata
   const lead = data.prismic.allCommunityleaders.edges
+  const event = data.prismic.allEventss.edges
 
-  if (!doc || !projects) return null
+  if (!doc) return null
 
   return (
     <Layout>
-      <RenderBody home={doc.node} projects={projects} meta={meta} lead={lead} />
+      <RenderBody home={doc.node} meta={meta} lead={lead} event={event} />
     </Layout>
   )
 }
 
 RenderBody.propTypes = {
   home: PropTypes.object.isRequired,
-  projects: PropTypes.array.isRequired,
+  event: PropTypes.array.isRequired,
   meta: PropTypes.object.isRequired,
   lead: PropTypes.array.isRequired,
 }
@@ -332,16 +366,19 @@ export const query = graphql`
           }
         }
       }
-      allProjects {
+      allEventss {
         edges {
           node {
-            project_title
-            project_preview_description
-            project_preview_thumbnail
-            project_category
-            project_post_date
-            _meta {
-              uid
+            title
+            image
+            category
+            venue
+            start_datetime
+            end_datetime
+            registration_link {
+              ... on PRISMIC__ExternalLink {
+                url
+              }
             }
           }
         }
@@ -350,6 +387,7 @@ export const query = graphql`
         edges {
           node {
             name
+            image
             organisation
             github {
               ... on PRISMIC__ExternalLink {

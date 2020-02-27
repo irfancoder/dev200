@@ -29,6 +29,12 @@ const typeStyles = css`
     font-size: 1.7em;
   }
 
+  h4 {
+    font-family: HK Grotesk SemiBold;
+    line-height: 1.2;
+    font-size: 1.4em;
+  }
+
   h5 {
     margin-bottom: 1.45rem;
     font-weight: 500;

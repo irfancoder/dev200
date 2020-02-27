@@ -8,25 +8,25 @@ import GithubLogo from "images/github.svg"
 
 const Card = styled("div")`
   display: block;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   border-radius: 5px;
-  height: 250px;
-
-  &:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  }
+  width: 100%;
 
   @media (max-width: ${dimensions.maxwidthMobile}px) {
   }
 `
 const CardContent = styled("div")`
   display: flex;
-  height: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
   img {
     display: block;
     width: 100%;
-    height: 100%;
+    height: 200px;
     border-radius: 5px;
   }
 `
@@ -57,11 +57,19 @@ const SocMed = styled("a")`
   margin-right: 1em;
 `
 
-const CommunityLeaderCard = ({ name, organisation, linkedin, github }) => {
+const CommunityLeaderCard = ({
+  name,
+  organisation,
+  linkedin,
+  github,
+  image,
+}) => {
   return (
     <Card>
       <CardContent>
-        <img src={Logo} alt="" />
+        {(image && <img src={image.url} alt={image.alt} />) || (
+          <img src={Logo} />
+        )}
       </CardContent>
       <ProfileName>{name[0].text}</ProfileName>
       <ProfileTitle>{organisation[0].text}</ProfileTitle>

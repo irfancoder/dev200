@@ -87,7 +87,7 @@ const Header = () => (
           CITIES
         </Link>
         <Link activeClassName="Link--is-active" to="/work">
-          SPONSOR
+          APPLY
         </Link>
         <Link activeClassName="Link--is-active" to="/blog">
           CONTACT
