@@ -87,6 +87,15 @@ const Deco_1 = styled("img")`
   top: 0;
   right: 0;
   z-index: -100;
+
+  @media (max-width: ${dimensions.maxwidthTablet}px) {
+    top: 16vh;
+    width: 200px;
+  }
+
+  @media (max-width: ${dimensions.maxwidthMobile}px) {
+    display: none;
+  }
 `
 
 const Section = styled("div")`
@@ -176,9 +185,28 @@ const InviteWorkplace = styled("div")`
   font-family: HK Grotesk Light;
   font-size: 1.5em;
   padding-top: 1em;
+
   img {
     padding-left: 0.5em;
     height: 1.5em;
+    border-bottom: 3px solid transparent;
+    &:after {
+      content: "";
+      width: 18px;
+      height: 3px;
+      background: transparent;
+      bottom: -3px;
+      right: 50%;
+      margin-right: -9px;
+      transition: 100ms ease-in-out background;
+    }
+
+    &:hover {
+      &:after {
+        background: ${colors.blue500};
+        transition: 100ms ease-in-out background;
+      }
+    }
   }
 `
 
@@ -225,13 +253,14 @@ const RenderBody = ({ home, meta, lead, event }) => (
     <Hero>
       <Deco_1 src={deco_1} alt="hello" />
       <>{RichText.render(home.hero_title)}</>
-      <a
-        href={home.hero_button_link.url}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Button>{RichText.render(home.hero_button_text)}</Button>
-      </a>
+
+      <InviteWorkplace>
+        Join us on{" "}
+        <a href="https://www.facebook.com/workplace">
+          <img src={WorkplaceLogo} />
+        </a>
+        <br />
+      </InviteWorkplace>
     </Hero>
 
     <Section>
@@ -250,6 +279,17 @@ const RenderBody = ({ home, meta, lead, event }) => (
         between people to solve real world problems. At the heart of it all, it
         is a community.
       </GoalDescription>
+
+      {/* <script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></script>
+      <iframe
+        class="airtable-embed airtable-dynamic-height"
+        src="https://airtable.com/embed/shrSw7RHFP3OaX48d?backgroundColor=green"
+        frameborder="0"
+        onmousewheel=""
+        width="100%"
+        height="2542"
+        style={{ background: "transparent", border: "1px solid #ccc" }}
+      ></iframe> */}
     </Section>
 
     <Section>
@@ -290,7 +330,11 @@ const RenderBody = ({ home, meta, lead, event }) => (
     <Section>
       <SectionTitle>How can you fit in?</SectionTitle>
       <InviteWorkplace>
-        Well, for a start, why not join us on <img src={WorkplaceLogo} /> <br />
+        Well, for a start, why not join us on{" "}
+        <a href="https://www.facebook.com/workplace">
+          <img src={WorkplaceLogo} />
+        </a>
+        <br />
       </InviteWorkplace>
       <InviteWorkplace>and we will take it from there.</InviteWorkplace>
     </Section>

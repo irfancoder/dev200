@@ -54,6 +54,9 @@ const HeaderLinks = styled("div")`
     }
 
     &:hover {
+      color: #e13600;
+      font-family: HK Grotesk Bold;
+
       &:after {
         background: ${colors.blue500};
         transition: 100ms ease-in-out background;
@@ -61,16 +64,22 @@ const HeaderLinks = styled("div")`
     }
 
     &.Link--is-active {
-      &:after {
-        background: ${colors.blue500};
-        transition: 100ms ease-in-out background;
-      }
+      color: #e13600;
+      font-family: HK Grotesk Bold;
     }
   }
 `
 
 const LogoWrap = styled("img")`
   height: 25vh;
+
+  @media (max-width: ${dimensions.maxwidthTablet}px) {
+    height: 12vh;
+  }
+
+  @media (max-width: ${dimensions.maxwidthMobile}px) {
+    height: 12vh;
+  }
 `
 
 const Header = () => (
