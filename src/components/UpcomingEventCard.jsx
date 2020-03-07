@@ -12,12 +12,12 @@ const Card = styled("div")`
   transition: 0.3s;
   border-radius: 5px;
   width: 300px;
+  height: auto;
   margin-right: 1em;
   @media (max-width: ${dimensions.maxwidthMobile}px) {
   }
 `
 const CardContent = styled("div")`
-  width: 100%;
   .img {
     display: block;
     max-width: 100%;
@@ -26,6 +26,10 @@ const CardContent = styled("div")`
 `
 const Title = styled("h4")`
   font-weight: 400;
+  display: block;
+
+  white-space: initial;
+
   margin: 0px;
   padding-bottom: 0.5em;
 `
@@ -73,13 +77,28 @@ const Category = styled("div")`
   text-align: center;
   padding: 0.5em;
   font-size: 14px;
-  background: green;
+  background: ${props => props.color};
   letter-spacing: 4px;
   color: white;
   border-radius: 5px 5px 0 0;
 
   text-transform: uppercase;
   font-family: HK Grotesk Bold;
+`
+
+const Icon = styled("img")`
+  
+    &:hover {
+      fill: #e13600;
+  
+`
+
+const Thumbnail = styled("img")`
+  display: block;
+  max-width: 300px;
+  max-height: 220px;
+  width: auto;
+  height: auto;
 `
 
 const UpcomingEventCard = ({
@@ -91,7 +110,7 @@ const UpcomingEventCard = ({
   end_datetime,
   link,
 }) => {
-  console.log(start_datetime)
+  let categoryComponent = null
 
   const convertToDate = timestamp => {
     let convertedDate = Date(timestamp)
@@ -116,15 +135,34 @@ const UpcomingEventCard = ({
     return formattedTimestamp
   }
 
+  switch (category) {
+    case "Meet-up":
+      categoryComponent = <Category color="#007555">{category}</Category>
+      break
+    case "Expert Talk":
+      categoryComponent = <Category color="#d53e27">{category}</Category>
+      break
+    case "Workshop":
+      categoryComponent = <Category color="#f2b035">{category}</Category>
+      break
+    case "Hackathon":
+      categoryComponent = <Category color="#00b3e2">{category}</Category>
+      break
+    default:
+      categoryComponent = <Category color="#244459">{category}</Category>
+  }
+
   return (
     <Card>
       <CardContent>
-        <Category>{category}</Category>
-        <img src={Logo} alt="" />
+        {categoryComponent}
+        {(image && (
+          <Thumbnail src={image.url} height="220px" width="300px" />
+        )) || <Thumbnail src={Logo} />}
         <DetailContainer>
           <Title>{title[0].text}</Title>
           <Detail>
-            <img src={VenueIcon} />
+            <Icon src={VenueIcon} />
 
             <span>{venue}</span>
           </Detail>
@@ -144,7 +182,10 @@ const UpcomingEventCard = ({
               </span>
             )) || <span>N/A</span>}
           </Detail>
-          <RegisterButton href={link.url}>register</RegisterButton>
+          {(link.url && (
+            <RegisterButton href={link.url}>register</RegisterButton>
+          )) ||
+            alert("Sorry, the admin forgot to include the link. ")}
         </DetailContainer>
       </CardContent>
     </Card>

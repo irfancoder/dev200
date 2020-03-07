@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `Dev200 | Home of the Sarawakian Tech Developers`,
-    description: `Dev200 is a community of tech developers that exist in Sarawak`,
+    title: `DEV200 | Home of the Sarawakian Tech Developers`,
+    description: `DEV200 aims to build the foundation and unify the tech community in Sarawak by organising tech-related community programs`,
     author: `Irfan Ismail | ombak.dev`,
   },
   plugins: [
@@ -40,7 +40,7 @@ module.exports = {
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/oscar-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/dev200-colored.svg`, // This path is relative to the root of the site.
       },
     },
     // https://www.gatsbyjs.org/packages/gatsby-plugin-google-analytics/

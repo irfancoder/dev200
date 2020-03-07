@@ -55,7 +55,7 @@ const HeaderLinks = styled("div")`
 
     &:hover {
       color: #e13600;
-      font-family: HK Grotesk Bold;
+      font-family: HK Grotesk SemiBold;
 
       &:after {
         background: ${colors.blue500};
@@ -89,16 +89,16 @@ const Header = () => (
         <LogoWrap src={Logo} />
       </Link>
       <HeaderLinks>
-        <Link activeClassName="Link--is-active" to="/work">
+        <Link activeClassName="Link--is-active" to="/404">
           PROGRAMME
         </Link>
-        <Link activeClassName="Link--is-active" to="/work">
+        <Link activeClassName="Link--is-active" to="/404">
           CITIES
         </Link>
-        <Link activeClassName="Link--is-active" to="/work">
+        <Link activeClassName="Link--is-active" to="/404">
           APPLY
         </Link>
-        <Link activeClassName="Link--is-active" to="/blog">
+        <Link activeClassName="Link--is-active" to="/404">
           CONTACT
         </Link>
       </HeaderLinks>

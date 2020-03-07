@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
 import Helmet from "react-helmet"
 import { RichText } from "prismic-reactjs"
@@ -6,7 +6,7 @@ import { graphql, Link } from "gatsby"
 import styled from "@emotion/styled"
 import colors from "styles/colors"
 import dimensions from "styles/dimensions"
-import Button from "components/_ui/Button"
+import PartnerShowcase from "components/PartnerShowcase"
 import CommunityLeaderCard from "components/CommunityLeaderCard"
 import Layout from "components/Layout"
 import ProjectCard from "components/ProjectCard"
@@ -151,6 +151,15 @@ const GoalDescription = styled("p")`
   max-width: 80%;
   font-size: 1.3em;
 `
+const PartnerContainer = styled("div")`
+  width: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+`
 
 const CommunityLeadContainer = styled("div")`
   padding-top: 1em;
@@ -210,11 +219,10 @@ const InviteWorkplace = styled("div")`
   }
 `
 
-const RenderBody = ({ home, meta, lead, event }) => (
+const RenderBody = ({ home, meta, lead, event, partner }) => (
   <>
     <Helmet
       title={meta.title}
-      titleTemplate={`%s | ${meta.title}`}
       meta={[
         {
           name: `description`,
@@ -273,7 +281,7 @@ const RenderBody = ({ home, meta, lead, event }) => (
         what we know to more people.
         <br />
         <br />
-        <b>Dev200</b> is the answer we have come up with. It is where people
+        <b>DEV200</b> is the answer we have come up with. It is where people
         teach their technical expertise to aspiring learners. It is the sharing
         of ideas between a mentor and mentee. It is the collaborative effort
         between people to solve real world problems. At the heart of it all, it
@@ -294,6 +302,12 @@ const RenderBody = ({ home, meta, lead, event }) => (
 
     <Section>
       <SectionTitle>Beloved Partners</SectionTitle>
+      <PartnerContainer>
+        {partner &&
+          Object.keys(partner).map((object, index) => {
+            return <PartnerShowcase key={index} image={partner[object]} />
+          })}
+      </PartnerContainer>
     </Section>
     <Section>
       <SectionTitle>Community Leaders</SectionTitle>
@@ -364,18 +378,43 @@ const RenderBody = ({ home, meta, lead, event }) => (
   </>
 )
 
+const filterExpiredEvent = events => {
+  let sortedEvents = []
+  let pastEvents = []
+
+  events.forEach(activity => {
+    let eventDate = new Date(activity.node.start_datetime)
+    console.log(typeof eventDate)
+    if (eventDate > new Date()) {
+      sortedEvents.push(activity)
+    } else {
+      pastEvents.push(activity)
+    }
+  })
+  return sortedEvents.concat(pastEvents)
+}
+
+const exportPartnerLogo = partner => {}
+
 export default ({ data }) => {
   //Required check for no data being returned
   const doc = data.prismic.allHomepages.edges.slice(0, 1).pop()
   const meta = data.site.siteMetadata
   const lead = data.prismic.allCommunityleaders.edges
-  const event = data.prismic.allEventss.edges
+  const event = filterExpiredEvent(data.prismic.allEventss.edges)
+  const partner = doc.node.beloved_partner_section[0]
 
   if (!doc) return null
 
   return (
     <Layout>
-      <RenderBody home={doc.node} meta={meta} lead={lead} event={event} />
+      <RenderBody
+        home={doc.node}
+        meta={meta}
+        lead={lead}
+        event={event}
+        partner={partner}
+      />
     </Layout>
   )
 }
@@ -401,16 +440,14 @@ export const query = graphql`
                 url
               }
             }
-            content
-            about_title
-            about_bio
-            about_links {
-              about_link
+            beloved_partner_section {
+              partner_1
+              partner_2
             }
           }
         }
       }
-      allEventss {
+      allEventss(sortBy: start_datetime_ASC) {
         edges {
           node {
             title
