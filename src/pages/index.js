@@ -154,7 +154,7 @@ const GoalDescription = styled("p")`
 const PartnerContainer = styled("div")`
   width: auto;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 2rem;
   justify-content: center;
   align-items: center;
@@ -393,8 +393,6 @@ const filterExpiredEvent = events => {
   })
   return sortedEvents.concat(pastEvents)
 }
-
-const exportPartnerLogo = partner => {}
 
 export default ({ data }) => {
   //Required check for no data being returned
