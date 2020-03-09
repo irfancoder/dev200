@@ -442,6 +442,10 @@ export const query = graphql`
             beloved_partner_section {
               partner_1
               partner_2
+              partner_3
+              partner_4
+              partner_5
+              partner_6
             }
           }
         }
