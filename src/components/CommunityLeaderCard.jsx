@@ -5,6 +5,7 @@ import colors from "styles/colors"
 import Logo from "../images/dev200-colored.svg"
 import LinkedInLogo from "images/linkedin.svg"
 import GithubLogo from "images/github.svg"
+import WebsiteLogo from "images/web.svg"
 
 const Card = styled("div")`
   display: block;
@@ -63,6 +64,7 @@ const CommunityLeaderCard = ({
   linkedin,
   github,
   image,
+  website,
 }) => {
   return (
     <Card>
@@ -82,6 +84,11 @@ const CommunityLeaderCard = ({
         {github && (
           <SocMed href={github.url}>
             <img src={GithubLogo} alt="" />
+          </SocMed>
+        )}
+        {website && (
+          <SocMed href={website.url}>
+            <img src={WebsiteLogo} alt="" />
           </SocMed>
         )}
       </SocMedContent>

@@ -320,6 +320,7 @@ const RenderBody = ({ home, meta, lead, event, partner }) => (
             organisation={leader.node.organisation}
             linkedin={leader.node.linkedin}
             github={leader.node.github}
+            website={leader.node.website}
           />
         ))}
       </CommunityLeadContainer>
@@ -474,6 +475,11 @@ export const query = graphql`
               }
             }
             linkedin {
+              ... on PRISMIC__ExternalLink {
+                url
+              }
+            }
+            website {
               ... on PRISMIC__ExternalLink {
                 url
               }
